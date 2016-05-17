@@ -5,12 +5,17 @@
  */
 package proyecto;
 
-import java.io.BufferedReader;
-import java.io.FileOutputStream;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
+import com.mysql.jdbc.Statement;
+import java.sql.CallableStatement;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import oracle.jdbc.OracleTypes;
 
 /**
  *
@@ -35,59 +40,71 @@ public class BaseDatos {
         
     }
     
-    
-    /*
-    BufferedReader in = null;
+    public static void main(String[] args) throws SQLException{
+   
+
+
+            // Cargar el driver correspondiente
+            // http://www.oracle.com/technetwork/database/features/jdbc/default-2280470.html
+            DriverManager.registerDriver(new oracle.jdbc.driver.OracleDriver());
+
+            // Cadena de conexión: driver@machineName:port:SID, userid, password
+            Connection conn = DriverManager.getConnection("jdbc:oracle:thin:@172.20.225.114:1521:orcl", "noc11", "noc11");
         
-        
-            
-                   
-        
-            
-           
-                try{
-                // Crear y configurar la conexión
-                HttpURLConnection conexion = (HttpURLConnection) .openConnection();
-                conexion.setConnectTimeout(5000);
-                conexion.setReadTimeout(5000);
-                conexion.setInstanceFollowRedirects(true);
-                // Abrir el stream de lectura
-                in = new BufferedReader(
-                        new InputStreamReader(conexion.getInputStream()));
+            System.out.println("INFO: Conexión abierta");
 
-                // Leer línea a línea
-                String linea;
-                StringBuilder respuesta = new StringBuilder();
-                while ((linea = in.readLine()) != null) {
-                    respuesta.append(linea);
-                }
-
-
-                // Volcado a disco
-                byte buffer[] = respuesta.toString().getBytes();
-
-                FileOutputStream ficheroSalida = new FileOutputStream("../GIFT.txt");
-
-                ficheroSalida.write(buffer);
-
-                ficheroSalida.close();
-    
-      } catch (IOException ex) {
-            System.err.println("ERROR: Error de E/S");
-            
-           } finally {
-            try {
-                if (in != null) {
-                    in.close();
-                }
-            } catch (IOException ex) {
-                System.err.println("ERROR: Error de E/S");
+        /*// Consulta simple
+            Statement stmt = conn.createStatement();
+            ResultSet rset = stmt.executeQuery("select * from SYS.V_$VERSION");
+            while (rset.next()) {
+                System.out.println(rset.getString(1));
             }
+            stmt.close();
 
+            // Llamada a procedimiento almacenado
+            // Creamos el statement
+            String sql = "{ call gest_depart.insert_depart(?,?) }";
+            CallableStatement cs = conn.prepareCall(sql);
 
+            // Cargamos los parametros de entrada IN
+            cs.setString(1, "NuevoDep");
+            cs.setString(2, "VitoriaGasteiz");
 
-            }*/
+            // Ejecutamos la llamada
+            cs.execute();
 
+            System.out.println("INFO: Procedimiento ejecutado");
+
+            
+            
+            // Llamada a procedimiento almacenado
+            // Creamos el statement
+            String sql2 = "{ call gest_depart.visualizar_lista_depart(?) }";
+            CallableStatement cs2 = conn.prepareCall(sql2);
+
+            // Cargamos los parametros de entrada OUT
+            cs2.registerOutParameter(1, OracleTypes.CURSOR);
+
+            // Ejecutamos la llamada
+            cs2.execute();
+
+            ResultSet rs = (ResultSet)cs2.getObject(1);
+
+            while (rs.next()){
+                System.out.println(rs.getString("LOC"));
+            }
+            rs.close();            
+            
+            
+            System.out.println("INFO: Procedimiento ejecutado");
+            
+            
+            
+        } catch (SQLException ex) {
+            System.out.println("ERROR: No se ha podido ejecutar la consulta");
+            Logger.getLogger(EjemploOracle.class.getName()).log(Level.SEVERE, null, ex);
+        }*/
+}
     /**
      * @return the vPCategorias
      */
