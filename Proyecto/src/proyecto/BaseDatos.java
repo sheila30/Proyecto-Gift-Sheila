@@ -23,17 +23,20 @@ import oracle.jdbc.OracleTypes;
  */
 public class BaseDatos {
 
-    public static void main(String[] args) throws SQLException {
+        // Abrir la conexión con la base de datos
+        public static void main(String[] args) {
 
-            // Cargar el driver correspondiente
-        // http://www.oracle.com/technetwork/database/features/jdbc/default-2280470.html
+           
+        try{
         DriverManager.registerDriver(new oracle.jdbc.driver.OracleDriver());
 
-        // Cadena de conexión: driver@machineName:port:SID, userid, password
         Connection conn = DriverManager.getConnection("jdbc:oracle:thin:@172.20.225.114:1521:orcl", "noc11", "noc11");
 
         System.out.println("INFO: Conexión abierta");
-
+        
+        }catch (SQLException e ){
+            e.getMessage();
+        }
     }
 
     private VPCategorias vPCategorias = null;
