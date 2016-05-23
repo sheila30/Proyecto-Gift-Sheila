@@ -34,10 +34,53 @@ public class BaseDatos {
 
         System.out.println("INFO: Conexión abierta");
         
+      
+            // Insert_categoria
+            String sql = "{ call procedimentos.insert_categoria(?,?) }";
+            CallableStatement ic = conn.prepareCall(sql);
+
+            
+            ic.setString(1, "NuevaCategoria");
+            ic.registerOutParameter(1, OracleTypes.INTEGER);
+
+            
+            ic.execute();
+
+            System.out.println("INFO: Procedimiento ejecutado");
+
+            
+            
+           
+
+       
+        
         }catch (SQLException e ){
             e.getMessage();
         }
     }
+        
+      
+       
+       
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
 
     private VPCategorias vPCategorias = null;
 

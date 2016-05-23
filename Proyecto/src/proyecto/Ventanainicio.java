@@ -44,6 +44,7 @@ public class VentanaInicio extends javax.swing.JFrame {
         jButton2 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setResizable(false);
 
         jLabel1.setIcon(new javax.swing.ImageIcon("C:\\Users\\7fprog10\\Desktop\\Proyecto-Gift-Sheila\\icono.png")); // NOI18N
 
