@@ -258,6 +258,7 @@ public class VPCategorias extends javax.swing.JFrame {
         vPCategorias.getBaseDatos().nuevaCategoria(c);
 
         limpiar();
+        
     }//GEN-LAST:event_jButton4ActionPerformed
 
     private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
