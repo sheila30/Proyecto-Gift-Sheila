@@ -14,7 +14,12 @@ import javax.swing.ImageIcon;
  */
 public class VPCategorias extends javax.swing.JFrame {
     
-    
+      private void limpiar(){
+        this.setVisible(false);
+        
+        jTextField1.setText("");
+        
+        jTextField1.requestFocus();
    
     
     // Referencia a VNuevaCategoria
@@ -34,8 +39,7 @@ public class VPCategorias extends javax.swing.JFrame {
         
         baseDatos = new BaseDatos();
         baseDatos.setvPCategorias(this);
-        
-        
+            
         
         
     }
@@ -233,11 +237,14 @@ public class VPCategorias extends javax.swing.JFrame {
         // Botón BORRAR
         
         
+        
+        
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
         
         // Botón VER TODAS
+       
         
         
     }//GEN-LAST:event_jButton5ActionPerformed
@@ -326,7 +333,9 @@ public class VPCategorias extends javax.swing.JFrame {
      */
     public void setvNuevaCategoria(VNuevaCategoria vNuevaCategoria) {
         this.vNuevaCategoria = vNuevaCategoria;
-    }
+    
+            }
+    
 
     /**
      * @return the baseDatos
