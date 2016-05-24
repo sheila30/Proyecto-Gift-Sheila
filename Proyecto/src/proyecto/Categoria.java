@@ -25,11 +25,7 @@ public class Categoria {
 
     public Categoria(String titulo) {
         this.titulo = titulo;
-    }
-
-    
-   
-    
+    } 
 
     @Override
     public int hashCode() {
@@ -58,9 +54,6 @@ public class Categoria {
     public String toString() {
         return "Categoria{" + "titulo=" + titulo + '}';
     }
-
-    
-    
     /**
      * @return the id_cat
      */
@@ -88,8 +81,5 @@ public class Categoria {
     public void setTitulo(String titulo) {
         this.titulo = titulo;
     }
-    
-
-    
-    
+   
 }
