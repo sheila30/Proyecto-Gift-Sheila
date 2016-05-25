@@ -5,40 +5,51 @@
  */
 package proyecto;
 
-import java.awt.Color;
 import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.ResultSet;
 import java.sql.SQLException;
-import javax.swing.ImageIcon;
+import java.sql.Statement;
 import oracle.jdbc.OracleTypes;
 
 /**
  *
- * @author Sheila
+ * @author 7FPROG10
  */
-public class VNuevaCategoria extends javax.swing.JFrame {
-
-    // Referencia a VCategorías
-    private VPCategorias vPCategorias = null;
-
-    private void limpiar() {
-        this.setVisible(false);
-
-        jTextField1.setText("");
-
-        jTextField1.requestFocus();
-
-    }
+public class VBorrarCategoria extends javax.swing.JFrame {
 
     /**
-     * Creates new form VAñadirCategoria
+     * Creates new form VBorrarCategoria
      */
-    public VNuevaCategoria() {
+    public VBorrarCategoria() {
         initComponents();
-        setIconImage(new ImageIcon(getClass().getResource("../icono/moodle.png")).getImage());
 
-        this.getContentPane().setBackground(Color.ORANGE);
+        // Botón GUARDAR
+        try {
+            DriverManager.registerDriver(new oracle.jdbc.driver.OracleDriver());
+            Connection conn = DriverManager.getConnection("jdbc:oracle:thin:@172.20.225.114:1521:orcl", "noc11", "noc11");
+            System.out.println("INFO: Conexión abierta");
+
+            // Recuperar todas las categorías
+            // Vaciar el combobox
+            jComboBox1.removeAllItems();
+
+            // Consulta simple
+            Statement stmt = conn.createStatement();
+            ResultSet rset = stmt.executeQuery("select * from categorias");
+            while (rset.next()) {
+                // Añadir las categorías al ComboBox
+                jComboBox1.addItem(rset.getString("titulo"));
+            }
+            stmt.close();
+
+            System.out.println("INFO: Procedimiento ejecutado");
+            conn.close();
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+
     }
 
     /**
@@ -51,16 +62,15 @@ public class VNuevaCategoria extends javax.swing.JFrame {
     private void initComponents() {
 
         label1 = new java.awt.Label();
-        jTextField1 = new javax.swing.JTextField();
         jLabel1 = new javax.swing.JLabel();
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
+        jComboBox1 = new javax.swing.JComboBox();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setResizable(false);
 
         label1.setFont(new java.awt.Font("Perpetua Titling MT", 1, 18)); // NOI18N
-        label1.setText("AÑADIR CATEGORÍA");
+        label1.setText("BORRAR CATEGORÍA");
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         jLabel1.setText("Título: ");
@@ -72,12 +82,14 @@ public class VNuevaCategoria extends javax.swing.JFrame {
             }
         });
 
-        jButton2.setText("Guardar");
+        jButton2.setText("Borrar");
         jButton2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton2ActionPerformed(evt);
             }
         });
+
+        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -88,7 +100,7 @@ public class VNuevaCategoria extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(label1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE))
+                        .addGap(0, 194, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
@@ -98,8 +110,8 @@ public class VNuevaCategoria extends javax.swing.JFrame {
                                 .addComponent(jButton2))
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                                 .addComponent(jLabel1)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 35, Short.MAX_VALUE)
-                                .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 258, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addGap(18, 18, 18)
+                                .addComponent(jComboBox1, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                         .addContainerGap())))
         );
         layout.setVerticalGroup(
@@ -108,10 +120,10 @@ public class VNuevaCategoria extends javax.swing.JFrame {
                 .addGap(24, 24, 24)
                 .addComponent(label1, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel1))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 31, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel1)
+                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 175, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton2)
                     .addComponent(jButton1))
@@ -123,40 +135,30 @@ public class VNuevaCategoria extends javax.swing.JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
 
-        // Botón CANCELAR
-        limpiar();
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
 
-        // Botón GUARDAR
+        // Botón BORRAR
         try {
             DriverManager.registerDriver(new oracle.jdbc.driver.OracleDriver());
-
             Connection conn = DriverManager.getConnection("jdbc:oracle:thin:@172.20.225.114:1521:orcl", "noc11", "noc11");
-
             System.out.println("INFO: Conexión abierta");
 
-            // Insert_categoria
-            String sql = "{ call PROCEDIMIENTOS_PROYECTO.INSERT_CATEGORIA(?,?) }";
-            CallableStatement ic = conn.prepareCall(sql);
+            // Borrar categoría
+            String sql = "{ call PROCEDIMIENTOS_PROYECTO.DELETE_CATEGORIA(?,?) }";
+            CallableStatement bc = conn.prepareCall(sql);
 
-            ic.setString(1, jTextField1.getText());
-            ic.registerOutParameter(2, OracleTypes.INTEGER);
+            bc.setString(1, jComboBox1.getName());
 
-            ic.execute();
+           
 
+            bc.execute();
             System.out.println("INFO: Procedimiento ejecutado");
-
             conn.close();
-
-            limpiar();
-
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
-
-
     }//GEN-LAST:event_jButton2ActionPerformed
 
     /**
@@ -170,27 +172,26 @@ public class VNuevaCategoria extends javax.swing.JFrame {
          */
         try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("SystemLookAndFeel".equals(info.getName())) {
+                if ("Nimbus".equals(info.getName())) {
                     javax.swing.UIManager.setLookAndFeel(info.getClassName());
                     break;
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(VNuevaCategoria.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(VBorrarCategoria.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(VNuevaCategoria.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(VBorrarCategoria.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(VNuevaCategoria.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(VBorrarCategoria.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(VNuevaCategoria.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(VBorrarCategoria.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
-        //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new VNuevaCategoria().setVisible(true);
+                new VBorrarCategoria().setVisible(true);
             }
         });
     }
@@ -198,22 +199,8 @@ public class VNuevaCategoria extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
+    private javax.swing.JComboBox jComboBox1;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JTextField jTextField1;
     private java.awt.Label label1;
     // End of variables declaration//GEN-END:variables
-
-    /**
-     * @return the vPCategorias
-     */
-    public VPCategorias getvPCategorias() {
-        return vPCategorias;
-    }
-
-    /**
-     * @param vPCategorias the vPCategorias to set
-     */
-    public void setvPCategorias(VPCategorias vPCategorias) {
-        this.vPCategorias = vPCategorias;
-    }
 }

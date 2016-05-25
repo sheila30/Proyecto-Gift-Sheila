@@ -36,26 +36,25 @@ public class BaseDatos {
         
       
             // Insert_categoria
-            String sql = "{ call procedimentos.insert_categoria(?,?) }";
+            String sql = "{ call PROCEDIMIENTOS_PROYECTO.INSERT_CATEGORIA(?,?) }";
             CallableStatement ic = conn.prepareCall(sql);
 
             
             ic.setString(1, "NuevaCategoria");
-            ic.registerOutParameter(1, OracleTypes.INTEGER);
-
+            ic.registerOutParameter(2, OracleTypes.INTEGER);
             
             ic.execute();
 
             System.out.println("INFO: Procedimiento ejecutado");
-
             
+            conn.commit();
             
-           
+           conn.close();
 
        
         
         }catch (SQLException e ){
-            e.getMessage();
+            System.out.println(e.getMessage());
         }
     }
         
