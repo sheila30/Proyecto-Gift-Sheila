@@ -67,6 +67,7 @@ public class VBorrarCategoria extends javax.swing.JFrame {
         jComboBox1 = new javax.swing.JComboBox();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setResizable(false);
 
         label1.setFont(new java.awt.Font("Perpetua Titling MT", 1, 18)); // NOI18N
         label1.setText("BORRAR CATEGORÍA");
@@ -113,7 +114,7 @@ public class VBorrarCategoria extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel1)
                     .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 175, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 20, Short.MAX_VALUE)
                 .addComponent(jButton2)
                 .addContainerGap())
         );
@@ -130,10 +131,11 @@ public class VBorrarCategoria extends javax.swing.JFrame {
             System.out.println("INFO: Conexión abierta");
 
             // Borrar categoría
-            String sql = "{ call PROCEDIMIENTOS_PROYECTO.DELETE_CATEGORIA(?,?) }";
+            String sql = "{ call PROCEDIMIENTOS_PROYECTO.DELETE_CATEGORIA(?) }";
             CallableStatement bc = conn.prepareCall(sql);
 
-            bc.setString(1, jComboBox1.re);
+           bc.setString(1, jComboBox1.getSelectedItem().toString());
+           
 
            
 
